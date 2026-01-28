@@ -18,18 +18,27 @@ public class Heisenberg {
         System.out.println("So? What are you up to?");
         System.out.println(line);
 
-        //Echo (level 1)
+        String[] tasks = new String[100];
+        int taskCount = 0;
         Scanner in = new Scanner(System.in);
+
         while (true) {
             String input = in.nextLine();
-
             if (input.equalsIgnoreCase("bye")) {
                 break;
+            } else if (input.equalsIgnoreCase("list")) {
+                System.out.println(indent + line);
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println(indent + (i + 1) + ". " + tasks[i]);
+                }
+                System.out.println(indent + line);
+            } else {
+                tasks[taskCount] = input;
+                taskCount++;
+                System.out.println(indent + line);
+                System.out.println(indent + "added: " + input);
+                System.out.println(indent + line);
             }
-
-            System.out.println(indent+line);
-            System.out.println(indent+input);
-            System.out.println(indent+line);
         }
 
         //Exit (level 0)
