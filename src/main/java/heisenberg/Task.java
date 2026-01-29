@@ -1,6 +1,8 @@
+package heisenberg;
+
 public class Task {
-    private final String description;
-    private boolean isDone;
+    protected final String description;
+    protected boolean isDone;
 
     public Task(String description) {
         this.description = description;
