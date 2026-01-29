@@ -32,6 +32,7 @@ public class Heisenberg {
                 handleCommand(input);
             } catch (HeisenbergException e) {
                 printLine();
+                System.out.println(INDENT + HeisenbergMessages.getErrorMessage());
                 System.out.println(INDENT + "Error: " + e.getMessage());
                 printLine();
             }
@@ -66,26 +67,12 @@ public class Heisenberg {
     private static void markTask(String input) throws HeisenbergException {
         try {
             // Validate: Did they type a number?
-            String[] parts = input.split(" ");
-            if (parts.length < 2) {
-                throw new HeisenbergException("You need to tell me which task to mark, Jesse.");
-            }
-
-            int index = Integer.parseInt(parts[1]) - 1;
-
-            // Validate: Does the task exist?
-            if (index < 0 || index >= taskCount) {
-                throw new HeisenbergException("That task doesn't exist. Apply yourself!");
-            }
-
-            if (tasks[index].isDone) {
-                throw new HeisenbergException("Jesse, focus! You already finished this batch.");
-            }
+            int index = getMarkIndex(input);
 
             tasks[index].markAsDone();
 
             printLine();
-            System.out.println(INDENT + "Tight, Tight, Tight, Task completed: ");
+            System.out.println(INDENT + HeisenbergMessages.getMarkMessage());
             System.out.println(INDENT + "  " + tasks[index]);
             printLine();
 
@@ -94,36 +81,60 @@ public class Heisenberg {
         }
     }
 
+    private static int getMarkIndex(String input) throws HeisenbergException {
+        String[] parts = input.split(" ");
+        if (parts.length < 2) {
+            throw new HeisenbergException("You need to tell me which task to mark.");
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+
+        // Validate: Does the task exist?
+        if (index < 0 || index >= taskCount) {
+            throw new HeisenbergException("That task doesn't exist. Apply yourself!");
+        }
+
+        if (tasks[index].isDone) {
+            throw new HeisenbergException("Focus! You already finished this batch.");
+        }
+        return index;
+    }
+
     //Helper function to label the task as unmarked
     private static void unmarkTask(String input) throws HeisenbergException {
         try {
             // Validate: Did they type a number?
-            String[] parts = input.split(" ");
-            if (parts.length < 2) {
-                throw new HeisenbergException("You need to tell me which task to unmark.");
-            }
-
-            int index = Integer.parseInt(parts[1]) - 1;
-
-            // Validate: Does the task exist?
-            if (index < 0 || index >= taskCount) {
-                throw new HeisenbergException("I can't unmark a task that doesn't exist.");
-            }
-
-            if (!tasks[index].isDone) {
-                throw new HeisenbergException("This task is already undone. Stop wasting my time.");
-            }
+            int index = getUnmarkIndex(input);
 
             tasks[index].unmarkAsDone();
 
             printLine();
-            System.out.println(INDENT + "You're slipping, Jesse. I’ve marked this task as not done yet: ");
+            System.out.println(INDENT + HeisenbergMessages.getUnmarkMessage());
             System.out.println(INDENT + "  " + tasks[index]);
             printLine();
 
         } catch (NumberFormatException e) {
             throw new HeisenbergException("Speak English! Give me a valid number.");
         }
+    }
+
+    private static int getUnmarkIndex(String input) throws HeisenbergException {
+        String[] parts = input.split(" ");
+        if (parts.length < 2) {
+            throw new HeisenbergException("You need to tell me which task to unmark.");
+        }
+
+        int index = Integer.parseInt(parts[1]) - 1;
+
+        // Validate: Does the task exist?
+        if (index < 0 || index >= taskCount) {
+            throw new HeisenbergException("I can't unmark a task that doesn't exist.");
+        }
+
+        if (!tasks[index].isDone) {
+            throw new HeisenbergException("This task is already undone. Stop wasting my time.");
+        }
+        return index;
     }
 
     //Helper function to add new task
@@ -132,7 +143,7 @@ public class Heisenberg {
         taskCount++;
 
         printLine();
-        System.out.println(INDENT + "This is 99.1% pure productivity. I've added: " + description);
+        System.out.println(INDENT + HeisenbergMessages.getAddMessage() + description);
         printLine();
     }
 
