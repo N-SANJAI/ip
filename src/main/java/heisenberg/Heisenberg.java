@@ -187,11 +187,11 @@ public class Heisenberg {
     }
 
     /**
-     * Extracts the zero-based index from a command string.
+     * Extracts the index from a command string.
      *
      * @param input The full command string (e.g., "mark 1").
      * @param command The command name for error messaging.
-     * @return The zero-based index of the task.
+     * @return The index of the task.
      * @throws HeisenbergException If the index is invalid or out of bounds.
      */
     private static int getIndexFromCommand(String input, String command) throws HeisenbergException {

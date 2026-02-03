@@ -2,6 +2,10 @@ package heisenberg;
 
 import java.util.Random;
 
+/**
+ * Manages the personality-based responses for the Heisenberg chatbot.
+ * Provides random quotes from "Breaking Bad" for various interactions.
+ */
 public class HeisenbergMessages {
     private static final Random random = new Random();
     private static boolean isTestMode = false;
@@ -36,20 +40,25 @@ public class HeisenbergMessages {
             "Do not cross me. Check your command."
     };
 
-    // Setter for test mode
+    /**
+     * Sets the test mode flag.
+     *
+     * @param isTest If true, the chatbot returns deterministic messages for testing.
+     */
     public static void setTestMode(boolean isTest) {
         isTestMode = isTest;
     }
 
-    //Returns a random string from the provided array.
-    public static String getRandom(String[] phrases) {
+    /**
+     * Returns a random message from the given array, or the first one if in test mode.
+     */
+    private static String getRandom(String[] phrases) {
         if (isTestMode) {
-            return phrases[0]; // Deterministic output for testing
+            return phrases[0];
         }
         return phrases[random.nextInt(phrases.length)];
     }
 
-    // Getters for specific categories
     public static String getAddMessage() { return getRandom(ADD_PHRASES); }
     public static String getMarkMessage() { return getRandom(MARK_PHRASES); }
     public static String getUnmarkMessage() { return getRandom(UNMARK_PHRASES); }
