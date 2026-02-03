@@ -48,9 +48,60 @@ public class Heisenberg {
             markTask(input);
         } else if (input.startsWith("unmark")) {
             unmarkTask(input);
+        } else if (input.startsWith("todo")) {
+            addTodo(input);
+        } else if (input.startsWith("deadline")) {
+            addDeadline(input);
+        } else if (input.startsWith("event")) {
+            addEvent(input);
         } else {
-            addTask(input);
+            throw new HeisenbergException("I don't know what that means. Speak up!");
         }
+    }
+
+    //Helper function to add a task as a Todo
+    private static void addTodo(String input) throws HeisenbergException {
+        String description = input.replaceFirst("todo", "").trim();
+        if (description.isEmpty()) {
+            throw new HeisenbergException("The description of a todo cannot be empty, Jesse!");
+        }
+        addTask(new ToDo(description));
+    }
+
+    //Helper function to add task as a Deadline
+    private static void addDeadline(String input) throws HeisenbergException {
+        // Expected format: deadline return book /by Sunday
+        if (!input.contains("/by")) {
+            throw new HeisenbergException("Missing '/by' for the deadline. Stay focused!");
+        }
+        String[] parts = input.replaceFirst("deadline", "").split("/by", 2);
+        String description = parts[0].trim();
+        String by = parts[1].trim();
+
+        if (description.isEmpty() || by.isEmpty()) {
+            throw new HeisenbergException("Deadlines need a description and a time. Apply yourself!");
+        }
+        addTask(new Deadline(description, by));
+    }
+
+    //Helper function to add task as an Event
+    private static void addEvent(String input) throws HeisenbergException {
+        // Expected format: event meeting /from Mon 2pm /to 4pm
+        if (!input.contains("/from") || !input.contains("/to")) {
+            throw new HeisenbergException("Events need a '/from' and '/to'. Apply yourself!");
+        }
+
+        String[] parts = input.replaceFirst("event", "").split("/from", 2);
+        String description = parts[0].trim();
+
+        String[] timeParts = parts[1].split("/to", 2);
+        String from = timeParts[0].trim();
+        String to = timeParts[1].trim();
+
+        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
+            throw new HeisenbergException("Events need a description, from, and to. Don't be sloppy.");
+        }
+        addTask(new Event(description, from, to));
     }
 
     //Helper function to list tasks stored in tasks[]
@@ -66,9 +117,7 @@ public class Heisenberg {
     //Helper function to label the task as marked
     private static void markTask(String input) throws HeisenbergException {
         try {
-            // Validate: Did they type a number?
-            int index = getMarkIndex(input);
-
+            int index = getIndexFromCommand(input, "mark");
             tasks[index].markAsDone();
 
             printLine();
@@ -80,32 +129,10 @@ public class Heisenberg {
             throw new HeisenbergException("Speak English! Give me a valid number.");
         }
     }
-
-    private static int getMarkIndex(String input) throws HeisenbergException {
-        String[] parts = input.split(" ");
-        if (parts.length < 2) {
-            throw new HeisenbergException("You need to tell me which task to mark.");
-        }
-
-        int index = Integer.parseInt(parts[1]) - 1;
-
-        // Validate: Does the task exist?
-        if (index < 0 || index >= taskCount) {
-            throw new HeisenbergException("That task doesn't exist. Apply yourself!");
-        }
-
-        if (tasks[index].isDone) {
-            throw new HeisenbergException("Focus! You already finished this batch.");
-        }
-        return index;
-    }
-
     //Helper function to label the task as unmarked
     private static void unmarkTask(String input) throws HeisenbergException {
         try {
-            // Validate: Did they type a number?
-            int index = getUnmarkIndex(input);
-
+            int index = getIndexFromCommand(input, "unmark");
             tasks[index].unmarkAsDone();
 
             printLine();
@@ -118,32 +145,30 @@ public class Heisenberg {
         }
     }
 
-    private static int getUnmarkIndex(String input) throws HeisenbergException {
+    //helper function to get the index from mark and unmark commands
+    private static int getIndexFromCommand(String input, String command) throws HeisenbergException {
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new HeisenbergException("You need to tell me which task to unmark.");
+            throw new HeisenbergException("You need to tell me which task to " + command + ".");
         }
 
         int index = Integer.parseInt(parts[1]) - 1;
 
-        // Validate: Does the task exist?
         if (index < 0 || index >= taskCount) {
-            throw new HeisenbergException("I can't unmark a task that doesn't exist.");
-        }
-
-        if (!tasks[index].isDone) {
-            throw new HeisenbergException("This task is already undone. Stop wasting my time.");
+            throw new HeisenbergException("That task doesn't exist. Apply yourself!");
         }
         return index;
     }
 
     //Helper function to add new task
-    private static void addTask(String description) {
-        tasks[taskCount] = new Task(description);
+    private static void addTask(Task task) {
+        tasks[taskCount] = task;
         taskCount++;
 
         printLine();
-        System.out.println(INDENT + HeisenbergMessages.getAddMessage() + description);
+        System.out.println(INDENT + "Got it. I've added this task:");
+        System.out.println(INDENT + "  " + task);
+        System.out.println(INDENT + "Now you have " + taskCount + " tasks in the list.");
         printLine();
     }
 
