@@ -7,18 +7,22 @@ public class Heisenberg {
     // Constants and Variables
     private static final String HORIZONTAL_LINE = "____________________________________________________________";
     private static final String INDENT = "    ";
-    private static final String LOGO = " _   _       _                  _                     \n"
-            + "| | | | ___ (_) ___  ___ _ __  | |__   ___ _ __ __ _      \n"
+    private static final String LOGO = " _   _       _                  _\n"
+            + "| | | | ___ (_) ___  ___ _ __  | |__   ___ _ __ __ _\n"
             + "| |_| |/ _ \\| |/ __|/ _ \\ '_ \\ | '_ \\ / _ \\ '__/ _` |\n"
-            + "|  _  |  __/| |\\__ \\  __/ | | || |_) |  __/ | | (_| |   \n"
-            + "|_| |_|\\___||_| ___/\\___|_| |_||_.__/ \\___|_|  \\__, | \n"
-            + "                                               |___/      \n";
+            + "|  _  |  __/| |\\__ \\  __/ | | || |_) |  __/ | | (_| |\n"
+            + "|_| |_|\\___||_| ___/\\___|_| |_||_.__/ \\___|_|  \\__, |\n"
+            + "                                               |___/\n";
 
     private static final Task[] tasks = new Task[100];
     private static int taskCount = 0;
 
     //Main Heisenberg chatbot function
     public static void main(String[] args) {
+        if (args.length > 0 && args[0].equals("test")) {
+            HeisenbergMessages.setTestMode(true);
+        }
+
         printWelcome();
         Scanner in = new Scanner(System.in);
 
@@ -107,7 +111,7 @@ public class Heisenberg {
     //Helper function to list tasks stored in tasks[]
     private static void listTasks() {
         printLine();
-        System.out.println(INDENT + "Jesse here is our to-do list: ");
+        System.out.println(INDENT + "Jesse here is our to-do list:");
         for (int i = 0; i < taskCount; i++) {
             System.out.println(INDENT + (i + 1) + "." + tasks[i]);
         }
@@ -166,7 +170,7 @@ public class Heisenberg {
         taskCount++;
 
         printLine();
-        System.out.println(INDENT + "Got it. I've added this task:");
+        System.out.println(INDENT + HeisenbergMessages.getAddMessage());
         System.out.println(INDENT + "  " + task);
         System.out.println(INDENT + "Now you have " + taskCount + " tasks in the list.");
         printLine();
@@ -175,7 +179,7 @@ public class Heisenberg {
     //Helper function to print welcome statement
     private static void printWelcome() {
         System.out.println(HORIZONTAL_LINE);
-        System.out.println("Say My Name \n" + LOGO);
+        System.out.println("Say My Name\n" + LOGO);
         System.out.println("You're god dam right");
         System.out.println("So... What are you up to?");
         System.out.println(HORIZONTAL_LINE);

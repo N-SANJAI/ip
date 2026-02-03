@@ -4,28 +4,29 @@ import java.util.Random;
 
 public class HeisenbergMessages {
     private static final Random random = new Random();
+    private static boolean isTestMode = false;
 
     // CATEGORY 1: When adding a task
     private static final String[] ADD_PHRASES = {
-            "This is 99.1% pure productivity. I've added: ",
-            "We have work to do. Added to the batch: ",
-            "No half measures. I've listed this: ",
-            "You're building an empire, Jesse. Added: "
+            "This is 99.1% pure productivity. I've added:",
+            "We have work to do. Added to the batch:",
+            "No half measures. I've listed this:",
+            "You're building an empire, Jesse. Added:"
     };
 
     // CATEGORY 2: When marking a task
     private static final String[] MARK_PHRASES = {
-            "Tight, Tight, Tight! Task completed: ",
-            "Respect the chemistry. The product is done: ",
-            "You're the best, man. You're the one! Completed: ",
-            "Stay out of my territory... because this task is done: "
+            "Tight, Tight, Tight! Task completed:",
+            "Respect the chemistry. The product is done:",
+            "You're the best, man. You're the one! Completed:",
+            "Stay out of my territory... because this task is done:"
     };
 
     // CATEGORY 3: When unmarking a task
     private static final String[] UNMARK_PHRASES = {
-            "You're slipping, Jesse. I’ve marked this task as not done yet: ",
-            "We are back to square one. Unmarked: ",
-            "Did you learn nothing from my class? Back to the list: "
+            "You're slipping, Jesse. I've marked this task as not done yet:",
+            "We are back to square one. Unmarked:",
+            "Did you learn nothing from my class? Back to the list:"
     };
 
     // CATEGORY 4: Errors
@@ -35,8 +36,16 @@ public class HeisenbergMessages {
             "Do not cross me. Check your command."
     };
 
+    // Setter for test mode
+    public static void setTestMode(boolean isTest) {
+        isTestMode = isTest;
+    }
+
     //Returns a random string from the provided array.
     public static String getRandom(String[] phrases) {
+        if (isTestMode) {
+            return phrases[0]; // Deterministic output for testing
+        }
         return phrases[random.nextInt(phrases.length)];
     }
 
