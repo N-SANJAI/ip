@@ -1,4 +1,4 @@
-package heisenberg;
+package heisenberg.tasks;
 
 /**
  * Represents a generic task in the Heisenberg chatbot.

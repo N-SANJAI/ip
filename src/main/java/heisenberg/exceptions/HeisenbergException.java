@@ -1,4 +1,4 @@
-package heisenberg;
+package heisenberg.exceptions;
 
 /**
  * Represents exceptions specific to the Heisenberg chatbot.

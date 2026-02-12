@@ -1,4 +1,4 @@
-package heisenberg;
+package heisenberg.tasks;
 
 /**
  * Represents a simple task without any date or time constraint.

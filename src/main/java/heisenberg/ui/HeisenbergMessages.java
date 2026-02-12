@@ -1,4 +1,4 @@
-package heisenberg;
+package heisenberg.ui;
 
 import java.util.Random;
 
