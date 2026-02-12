@@ -59,8 +59,19 @@ public class HeisenbergMessages {
         return phrases[random.nextInt(phrases.length)];
     }
 
-    public static String getAddMessage() { return getRandom(ADD_PHRASES); }
-    public static String getMarkMessage() { return getRandom(MARK_PHRASES); }
-    public static String getUnmarkMessage() { return getRandom(UNMARK_PHRASES); }
-    public static String getErrorMessage() { return getRandom(ERROR_PHRASES); }
+    public static String getAddMessage() {
+        return getRandom(ADD_PHRASES);
+    }
+
+    public static String getMarkMessage() {
+        return getRandom(MARK_PHRASES);
+    }
+
+    public static String getUnmarkMessage() {
+        return getRandom(UNMARK_PHRASES);
+    }
+
+    public static String getErrorMessage() {
+        return getRandom(ERROR_PHRASES);
+    }
 }
