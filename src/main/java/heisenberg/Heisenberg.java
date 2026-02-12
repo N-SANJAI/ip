@@ -105,12 +105,15 @@ public class Heisenberg {
     }
 
     private static void addDeadline(String input) throws HeisenbergException {
-        // Validation
+        String[] parts = validateDeadlineInput(input);
+        addTask(new Deadline(parts[0], parts[1]));
+    }
+
+    private static String[] validateDeadlineInput(String input) throws HeisenbergException {
         if (!input.contains(DEADLINE_PREFIX)) {
             throw new HeisenbergException("Missing '" + DEADLINE_PREFIX + "' for the deadline. Stay focused!");
         }
 
-        // Parsing logic
         String cleanInput = input.replaceFirst(COMMAND_DEADLINE, "");
         String[] parts = cleanInput.split(DEADLINE_PREFIX, 2);
         String description = parts[0].trim();
@@ -119,7 +122,7 @@ public class Heisenberg {
         if (description.isEmpty() || by.isEmpty()) {
             throw new HeisenbergException("Deadlines need a description and a time. Apply yourself!");
         }
-        addTask(new Deadline(description, by));
+        return new String[]{description, by};
     }
 
     private static void addEvent(String input) throws HeisenbergException {
