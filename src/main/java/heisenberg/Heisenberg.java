@@ -1,5 +1,12 @@
 package heisenberg;
 
+import heisenberg.exceptions.HeisenbergException;
+import heisenberg.tasks.Deadline;
+import heisenberg.tasks.Event;
+import heisenberg.tasks.Task;
+import heisenberg.tasks.ToDo;
+import heisenberg.ui.HeisenbergMessages;
+
 import java.util.Scanner;
 
 public class Heisenberg {

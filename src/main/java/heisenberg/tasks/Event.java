@@ -1,4 +1,4 @@
-package heisenberg;
+package heisenberg.tasks;
 
 /**
  * Represents a task that occurs during a specific time range.
