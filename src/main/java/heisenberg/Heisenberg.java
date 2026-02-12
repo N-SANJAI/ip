@@ -54,10 +54,7 @@ public class Heisenberg {
             try {
                 handleCommand(input);
             } catch (HeisenbergException e) {
-                printLine();
-                System.out.println(INDENT + HeisenbergMessages.getErrorMessage());
-                System.out.println(INDENT + "Error: " + e.getMessage());
-                printLine();
+                showError(e.getMessage());
             }
         }
         printGoodbye();
@@ -236,5 +233,12 @@ public class Heisenberg {
 
     private static void printLine() {
         System.out.println(INDENT + HORIZONTAL_LINE);
+    }
+
+    private static void showError(String message) {
+        printLine();
+        System.out.println(INDENT + HeisenbergMessages.getErrorMessage());
+        System.out.println(INDENT + "Error: " + message);
+        printLine();
     }
 }
