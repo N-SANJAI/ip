@@ -126,12 +126,15 @@ public class Heisenberg {
     }
 
     private static void addEvent(String input) throws HeisenbergException {
-        // Validation
+        String[] parts = validateEventInput(input);
+        addTask(new Event(parts[0], parts[1], parts[2]));
+    }
+
+    private static String[] validateEventInput(String input) throws HeisenbergException {
         if (!input.contains(EVENT_FROM_PREFIX) || !input.contains(EVENT_TO_PREFIX)) {
             throw new HeisenbergException("Events need a '" + EVENT_FROM_PREFIX + "' and '" + EVENT_TO_PREFIX + "'. Apply yourself!");
         }
 
-        // Parsing logic
         String cleanInput = input.replaceFirst(COMMAND_EVENT, "");
         String[] parts = cleanInput.split(EVENT_FROM_PREFIX, 2);
         String description = parts[0].trim();
@@ -142,11 +145,12 @@ public class Heisenberg {
         }
         String from = timeParts[0].trim();
         String to = timeParts[1].trim();
-
+        
         if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
             throw new HeisenbergException("Events need a description, from, and to. Don't be sloppy.");
         }
-        addTask(new Event(description, from, to));
+
+        return new String[]{description, from, to};
     }
 
     private static void listTasks() {
