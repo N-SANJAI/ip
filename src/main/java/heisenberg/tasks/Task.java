@@ -4,9 +4,9 @@ package heisenberg.tasks;
  * Represents a generic task in the Heisenberg chatbot.
  * Serves as the base class for specific task types like ToDo, Deadline, and Event.
  */
-public class Task {
-    private final String description;
-    private boolean isDone;
+public abstract class Task {
+    protected final String description;
+    protected boolean isDone;
 
     /**
      * Creates a new Task with the specified description.
@@ -40,6 +40,8 @@ public class Task {
     public void unmarkAsDone() {
         this.isDone = false;
     }
+
+    public abstract String toFileFormat();
 
     @Override
     public String toString() {
