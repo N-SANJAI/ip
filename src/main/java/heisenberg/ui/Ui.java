@@ -54,6 +54,14 @@ public class Ui {
         printLine();
     }
 
+    public void showDeleted(Task task, int count) {
+        printLine();
+        System.out.println(INDENT + "Jesse, I've removed this task:");
+        System.out.println(INDENT + "  " + task);
+        System.out.println(INDENT + "Now you have " + count + " tasks in the list.");
+        printLine();
+    }
+
     public void showAdded(Task task, int count) {
         printLine();
         System.out.println(INDENT + HeisenbergMessages.getAddMessage());
