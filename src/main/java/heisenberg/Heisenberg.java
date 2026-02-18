@@ -2,6 +2,7 @@ package heisenberg;
 
 import heisenberg.exceptions.HeisenbergException;
 import heisenberg.parser.Parser;
+import heisenberg.storage.Storage;
 import heisenberg.tasks.Deadline;
 import heisenberg.tasks.Event;
 import heisenberg.tasks.Task;
@@ -14,16 +15,19 @@ public class Heisenberg {
 
     private final Ui ui;
     private final TaskList tasks;
+    private final Storage storage;
 
     public Heisenberg() {
         ui = new Ui();
         tasks = new TaskList();
+        storage = new Storage("data/heisenberg.txt");
+        try {
+            storage.load(tasks);
+        } catch (HeisenbergException e) {
+            ui.showError("Could not load save file.");
+        }
     }
 
-    /**
-     * Main entry point for the Heisenberg chatbot.
-     * @param args Command line arguments.
-     */
     public static void main(String[] args) {
         if (args.length > 0 && args[0].equals("test")) {
             HeisenbergMessages.setTestMode(true);
@@ -63,12 +67,14 @@ public class Heisenberg {
             int markIndex = Parser.parseIndex(input, Parser.COMMAND_MARK, tasks.getSize());
             tasks.markTask(markIndex);
             ui.showMarked(tasks.getTask(markIndex));
+            storage.save(tasks);
             break;
 
         case Parser.COMMAND_UNMARK:
             int unmarkIndex = Parser.parseIndex(input, Parser.COMMAND_UNMARK, tasks.getSize());
             tasks.unmarkTask(unmarkIndex);
             ui.showUnmarked(tasks.getTask(unmarkIndex));
+            storage.save(tasks);
             break;
 
         case Parser.COMMAND_DELETE:
@@ -81,18 +87,21 @@ public class Heisenberg {
             String todoDesc = Parser.parseTodo(input);
             Task todo = new ToDo(todoDesc);
             addTask(todo);
+            storage.save(tasks);
             break;
 
         case Parser.COMMAND_DEADLINE:
             String[] deadlineParts = Parser.parseDeadline(input);
             Task deadline = new Deadline(deadlineParts[0], deadlineParts[1]);
             addTask(deadline);
+            storage.save(tasks);
             break;
 
         case Parser.COMMAND_EVENT:
             String[] eventParts = Parser.parseEvent(input);
             Task event = new Event(eventParts[0], eventParts[1], eventParts[2]);
             addTask(event);
+            storage.save(tasks);
             break;
 
         default:
