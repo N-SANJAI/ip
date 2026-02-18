@@ -1,46 +1,39 @@
 package heisenberg.tasks;
 
 import heisenberg.exceptions.HeisenbergException;
+import java.util.ArrayList;
 
 /**
  * Manages the list of tasks.
  */
 public class TaskList {
-    private final Task[] tasks;
-    private int taskCount;
+    private final ArrayList<Task> tasks;
 
     public TaskList() {
-        this.tasks = new Task[100];
-        this.taskCount = 0;
+        this.tasks = new ArrayList<>();
     }
 
     public void addTask(Task task) {
-        tasks[taskCount] = task;
-        taskCount++;
+        tasks.add(task);
     }
 
     public Task getTask(int index) {
-        return tasks[index];
+        return tasks.get(index);
     }
 
     public int getSize() {
-        return taskCount;
+        return tasks.size();
     }
 
     public void markTask(int index) {
-        tasks[index].markAsDone();
+        tasks.get(index).markAsDone();
     }
 
     public void unmarkTask(int index) {
-        tasks[index].unmarkAsDone();
+        tasks.get(index).unmarkAsDone();
     }
 
     public Task deleteTask(int index) {
-        Task deletedTask = tasks[index];
-        for (int i = index; i < taskCount - 1; i++) {
-            tasks[i] = tasks[i + 1];
-        }
-        taskCount--;
-        return deletedTask;
+        return tasks.remove(index);
     }
 }
