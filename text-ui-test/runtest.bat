@@ -6,6 +6,9 @@ if not exist ..\bin mkdir ..\bin
 REM delete output from previous run
 if exist ACTUAL.TXT del ACTUAL.TXT
 
+
+if exist data rmdir /s /q data
+
 REM compile the code into the bin folder
 javac  -cp ..\src\main\java -Xlint:none -d ..\bin ..\src\main\java\heisenberg\*.java
 IF ERRORLEVEL 1 (
@@ -15,6 +18,7 @@ IF ERRORLEVEL 1 (
 REM no error here, errorlevel == 0
 
 REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
+REM Added "test" argument to enable deterministic output (if your main method supports it)
 java -classpath ..\bin heisenberg.Heisenberg test < input.txt > ACTUAL.TXT
 
 REM compare the output to the expected output
