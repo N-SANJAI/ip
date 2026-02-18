@@ -71,6 +71,12 @@ public class Heisenberg {
             ui.showUnmarked(tasks.getTask(unmarkIndex));
             break;
 
+        case Parser.COMMAND_DELETE:
+            int deleteIndex = Parser.parseIndex(input, Parser.COMMAND_DELETE, tasks.getSize());
+            Task deleted = tasks.deleteTask(deleteIndex);
+            ui.showDeleted(deleted, tasks.getSize());
+            break;
+
         case Parser.COMMAND_TODO:
             String todoDesc = Parser.parseTodo(input);
             Task todo = new ToDo(todoDesc);

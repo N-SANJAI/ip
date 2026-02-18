@@ -34,4 +34,13 @@ public class TaskList {
     public void unmarkTask(int index) {
         tasks[index].unmarkAsDone();
     }
+
+    public Task deleteTask(int index) {
+        Task deletedTask = tasks[index];
+        for (int i = index; i < taskCount - 1; i++) {
+            tasks[i] = tasks[i + 1];
+        }
+        taskCount--;
+        return deletedTask;
+    }
 }
