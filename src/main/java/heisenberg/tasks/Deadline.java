@@ -21,7 +21,7 @@ public class Deadline extends Task {
      * Otherwise, it is stored and displayed as-is.
      *
      * @param description The task description.
-     * @param by The deadline date string (e.g., "2019-10-15" or "Sunday").
+     * @param by The deadline date string (e.g., "2026-03-06" or "Sunday").
      */
     public Deadline(String description, String by) {
         super(description);
